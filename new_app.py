@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from PyPDF2 import PdfReader
 from gtts import gTTS
 import io
 import os
