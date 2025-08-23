@@ -38,7 +38,16 @@ def text_to_speech(text, lang_code="en"):
         tts.save(fp.name + ".mp3")
         with open(fp.name + ".mp3", "rb") as f:
             return f.read()
+
 st.set_page_config(page_title="Text Translator & Speech Generator", layout="centered")
 st.title("🌍 Text Translator & Speech Generator")
 
 st.markdown("Translate text into different languages and generate speech using **Gemini API + gTTS**.")
+option = st.radio("Choose input method:", ["Enter text", "Upload File"])
+input_text = ""
+if option == "Enter text":
+    input_text = st.text_area("Enter your text here:")
+elif option == "Upload File":
+    uploaded_file = st.file_uploader("Upload a file (txt, pdf, csv, xlsx)", type=["txt", "pdf", "csv", "xlsx"])
+    if uploaded_file is not None:
+        input_text = extract_text_from_file(uploaded_file)
