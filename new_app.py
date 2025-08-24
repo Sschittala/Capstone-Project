@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from PyPDF2 import PdfReader
 from gtts import gTTS
+from gtts.lang import tts_langs
 import io
 import os
 import tempfile
@@ -10,8 +11,7 @@ import re
 
 genai.configure(api_key=os.getenv("Google_Api_KEY"))
 model = genai.GenerativeModel("gemini-1.5-pro")
-# for model in genai.list_models():
-#     print(f"Name: {model.name}, Supports: {model.supported_generation_methods}")
+
 def extract_text_from_file(uploaded_file):
     text = ""
     if uploaded_file.name.endswith(".txt"):
@@ -136,18 +136,14 @@ elif option == "Upload File":
     if uploaded_file is not None:
         input_text = extract_text_from_file(uploaded_file)
 
-t_language = st.selectbox("Select Preferred Language:",
-                          ["French", "Spanish", "German", "Hindi", "Chinese", "Arabic", "English"])
+gtts_languages = tts_langs()
+sorted_langs = dict(sorted(gtts_languages.items(), key=lambda x: x[1]))
+lang_names = list(sorted_langs.values())
 
-l_codes = {
-    "French": "fr",
-    "Spanish": "es",
-    "German": "de",
-    "Hindi": "hi",
-    "Chinese": "zh-CN",
-    "Arabic": "ar",
-    "English": "en"
-}
+t_language = st.selectbox("Select Preferred Language:",
+                          lang_names)
+
+l_codes = [code for code, name in sorted_langs.items() if name==t_language][0]
 
 if st.button("Translate"):
     if input_text.strip() == "":
@@ -158,7 +154,7 @@ if st.button("Translate"):
         st.subheader("Translated Text:")
         st.write(translated_text)
         with st.spinner("Converting to speech..."):
-            audio_bytes = text_to_speech(translated_text, l_codes[t_language])
+            audio_bytes = text_to_speech(translated_text, l_codes)
         st.audio(audio_bytes, format="audio/mp3")
         
         st.download_button(
