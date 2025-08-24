@@ -15,4 +15,12 @@ This app features a modern, dark-themed interface and provides an intuitaive wor
 ```bash
 git clone <repository-url>
 cd <repository-directory>
+```
+
+# 2. Create and activate Virtual Environment
+```bash
+python -m venv venv
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate      # Windows
+```
 
