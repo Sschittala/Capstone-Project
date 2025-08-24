@@ -83,3 +83,5 @@ streamlit run new_app.py
 # References
 
 - [Streamlit Documentation](https://docs.streamlit.io/)
+- [gTTS Documentation](https://gtts.readthedocs.io/en/latest/)
+- [Google Gemini API Documentation](https://ai.google.dev/)
