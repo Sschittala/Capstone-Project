@@ -6,9 +6,10 @@ import io
 import os
 import tempfile
 import google.generativeai as genai
+import re
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-pro")
+genai.configure(api_key=os.getenv("Google_Api_KEY"))
+model = genai.GenerativeModel("gemini-1.5-pro")
 # for model in genai.list_models():
 #     print(f"Name: {model.name}, Supports: {model.supported_generation_methods}")
 def extract_text_from_file(uploaded_file):
@@ -38,8 +39,10 @@ def translate_text(text, target_language):
     candidate = response.candidates[0]
     if not candidate.content.parts:
         return "No content returned"
-    return candidate.content.parts[0].text
-    # return response.text
+    translated = "".join(part.text for part in candidate.content.parts if hasattr(part, "text"))
+    translated = re.sub(r"[*_'#>-]", "", translated)
+    translated = re.sub(r"\s+", " ", translated)
+    return translated.strip()
 
 def text_to_speech(text, lang_code="en"):
     tts = gTTS(text=text, lang=lang_code)
@@ -49,6 +52,78 @@ def text_to_speech(text, lang_code="en"):
             return f.read()
 
 st.set_page_config(page_title="Text Translator & Speech Generator", layout="centered")
+dark_css = """
+<style>
+/* Main background */
+[data-testid="stAppViewContainer"]{
+    background: linear-gradient(135deg, #0b0b0b, #141414);
+    color: #e0e0e0;
+    font-family:'Segoe UI', sans-serif;
+}
+/* Sidebar */
+[data-testid="stSidebar"]{
+    background: #111111;
+    color: #e0e0e0;
+}
+/* Titles */
+h1, h2, h3, h4 {
+    color: #66ffe7;
+    text-shadow: 0 0 10px #008b8b, 0 0 20px #005f5f;
+}
+/* Buttons */
+.stButton>button {
+    background: linear-gradient(90deg,#004f4f, #006666);
+    color: #f0f0f0;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0.6em 2em;
+    border: none;
+    box-shadow: 0 0 15px #00cccc, 0 0 30px #009999;
+    transition: all 0.3s ease-in-out;
+}
+.stButton>button:hover {
+    background: linear-gradient(90deg, #006666, #009999);
+    color: #ffffff;
+    box-shadow: 0 0 20px #00cccc, 0 0 40px #009999;
+    transform: scale(1.05);
+}
+/* Inputs */
+.stTextArea textarea {
+    background: #1c1c1c !important;
+    color: #e0e0e0 !important;
+    border-radius: 8px;
+    border: 1px solid #004f4f;
+    box-shadow: inset 0 0 10px #006666;
+    
+}
+
+/* Audio Player */
+.stAudio {
+    background: #101010;
+    border: 1px solid #222222;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 0 10px #444444;
+}
+/* Download Button */
+.stDownloadButton>button {
+    background: linear-gradient(90deg, #3a003a, #520052;
+    color: #f0f0f0;
+    border-radius: 12px;
+    font-size: 16px;
+    padding: 0.6em 2em;
+    box-shadow: 0 0 15px #800080, 00 30px #550055;
+    transition: all 0.3s ease-in-out;
+}
+.stDownloadButton>button:hover {
+    background: linear-gradient(90deg, #520052, #800080);
+    box-shadow: 0 0 20px #aa00aa, 0 0 40px #770077;
+    transform: scale(1.05);
+}
+</style>
+"""
+st.markdown(dark_css, unsafe_allow_html=True)
 st.title("🌍 Text Translator & Speech Generator")
 
 st.markdown("Translate text into different languages and generate speech using **Gemini API + gTTS**.")
