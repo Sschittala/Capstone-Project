@@ -50,29 +50,36 @@ streamlit run new_app.py
 5. Download the audio if needed for offline use. 
 
 # Limitations and Considerations
-1. Gemini API Key
+1. **Gemini API Key**
 
 - A valid API key is required.
 - The API may have usage limits or quotas depending on the google cloud plan.
 
-2. File Size and Format
+2. **File Size and Format**
 
 - Very large files could take longer to process.
 - Non-text PDFs with images may not extract correctly.
 
-3. Translation Accuracy
+3. **Translation Accuracy**
 
 - Machine translation may not capture contextual meanings perfecly.
 - Special characters and formatting may be altered during translation. 
 
-4. Audio Generation
+4. **Audio Generation**
 
 - gTTS requires internet connection.
 
-5. Streamlit Limitations
+5. **Streamlit Limitations**
 
 - Audio playback in the app depends on browser support.
 
 # Challenges Faced
 
 1. **Text Extraction:** Handling multiple file types at once and preserving text formatting was challenging. 
+2. **Gemini API Integration:** Parsing responses from a specific generative model and extracting text consistently was challenging. The limit for the usages has also been challenging.
+3. **Audio File Management:** Ensuring temporary files from gTTS are handled properly without leaving residual files.
+4. **UI/UX Design:** Customizing streamlit components to provide a clean and intuitaive interface with interactive buttons. 
+
+# References
+
+- [Streamlit Documentation](https://docs.streamlit.io/)
