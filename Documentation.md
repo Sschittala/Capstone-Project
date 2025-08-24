@@ -10,7 +10,7 @@ The Text Translator and Speech Generator is a web application built with Streaml
 This app features a modern, dark-themed interface and provides an intuitaive workflow for translation and speech generation. 
 
 # Setup Instructions
-```markdown
+
 # 1. Clone Repository
 ```bash
 git clone <repository-url>
