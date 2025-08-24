@@ -12,3 +12,6 @@ This app features a modern, dark-themed interface and provides an intuitaive wor
 # Setup Instructions
 
 # 1. Clone Repository
+'''bash
+git clone <repository-url>
+cd <repository-directory>
