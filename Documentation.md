@@ -23,4 +23,13 @@ python -m venv venv
 source venv/bin/activate   # macOS/Linux
 venv\Scripts\activate      # Windows
 ```
-
+# Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+# Set Gemini API Key
+This app uses Google's Gemini API. Set the API key as an environment variable
+```bash
+export GOOGLE_API_KEY="Your Google Gemini API Key"   # macOS/Linux
+set GOOGLE_API_KEY="Your Google Gemini API Key"      # Windows
+```
